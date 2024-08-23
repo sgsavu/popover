@@ -1,18 +1,16 @@
 import type { PropsWithChildren } from 'react'
 import React from 'react'
-import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import { EMPTY_ARRAY, NOOP } from '../const'
+import { EMPTY_ARRAY } from '../const'
 import { useTooltipActive, useTooltipPosition } from './hooks'
-import { DialogRef, DIALOG_DIRECTIONS, DIALOG_MODE, DialogOffset } from './utils'
+import { DialogRef, DIALOG_DIRECTIONS, DIALOG_MODE, DialogOffset } from './const'
 import { useUpdateEffect } from '../hooks/useUpdateEffect'
 import { useMergeTheme } from '../hooks/useMergeTheme'
 import './index.css'
 
 const defaultTheme = {
     tooltip: 'sgsavu-popover',
-    tooltipContent: 'sgsavu-popover__content',
-    tooltipSignpost: 'sgsavu-popover__signpost'
+    tooltipContent: 'sgsavu-popover__content'
 }
 
 export type DialogProps = PropsWithChildren<{
@@ -27,14 +25,13 @@ export type DialogProps = PropsWithChildren<{
     disabled?: boolean
     mode?: DIALOG_MODE
     offset?: DialogOffset
-    signpost?: boolean
     testId?: string
     theme?: Partial<typeof defaultTheme>
 }>
 
 export const Dialog = React.forwardRef<DialogRef, DialogProps>(({
-    afterHide = NOOP,
-    afterShow = NOOP,
+    afterHide,
+    afterShow,
     allowClick = EMPTY_ARRAY,
     anchorEdge = DIALOG_DIRECTIONS.TOP_MIDDLE,
     anchorRef,
@@ -45,31 +42,40 @@ export const Dialog = React.forwardRef<DialogRef, DialogProps>(({
     disabled = false,
     mode = DIALOG_MODE.HOVER,
     offset,
-    signpost = false,
     testId,
     theme
 }, ref) => {
+    const contentRef = React.useRef<HTMLDivElement>(null)
     const mergedTheme = useMergeTheme(defaultTheme, theme)
-    
-    const tooltipClass = classNames(
-        mergedTheme.tooltip,
-        {
-            [mergedTheme.tooltipSignpost]: signpost
-        }
+
+    const isActive = useTooltipActive(
+        contentRef,
+        anchorRef as React.RefObject<Element>,
+        allowClick,
+        closeOnWindowBlur,
+        closeOnWindowResize,
+        delay,
+        disabled,
+        mode,
+        ref
+    )
+    const positionSet = useTooltipPosition(
+        contentRef,
+        anchorRef as React.RefObject<Element>,
+        isActive,
+        anchorEdge,
+        offset
     )
 
-    const contentRef = React.useRef<HTMLDivElement>(null)
-    const isActive = useTooltipActive(contentRef, anchorRef as React.RefObject<Element>, allowClick, closeOnWindowBlur, closeOnWindowResize, delay, disabled, mode, ref)
-    const positionSet = useTooltipPosition(contentRef, anchorRef as React.RefObject<Element>, isActive, anchorEdge, offset)
     const [position] = positionSet ?? [undefined]
 
-    useUpdateEffect(() => (isActive ? afterShow : afterHide)(), [afterHide, afterShow, isActive])
+    useUpdateEffect(() => (isActive ? afterShow : afterHide)?.(), [afterHide, afterShow, isActive])
 
     return !isActive
         ? null
         : ReactDOM.createPortal(
             <div
-                className={tooltipClass}
+                className={mergedTheme.tooltip}
                 ref={contentRef}
                 style={position}
                 data-testid={testId}
@@ -78,5 +84,6 @@ export const Dialog = React.forwardRef<DialogRef, DialogProps>(({
                     {children}
                 </div>
             </div>,
-            document.body)
+            document.body
+        )
 })

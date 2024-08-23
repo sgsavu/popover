@@ -1,5 +1,6 @@
 import React from 'react'
-import { DialogRef, DIALOG_DIRECTIONS, DIALOG_MODE, DialogOffset, DialogPosition, getPosition } from './utils'
+import { DialogRef, DIALOG_DIRECTIONS, DIALOG_MODE, DialogOffset, DialogPosition } from './const'
+import { getPosition } from './utils'
 import { useObserveSize } from '../hooks/useObserveSize'
 import { useStableCallback } from '../hooks/useStableCallback'
 
