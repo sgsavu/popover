@@ -13,7 +13,7 @@ const defaultTheme = {
     tooltipContent: 'sgsavu-popover__content'
 }
 
-export type DialogProps = PropsWithChildren<{
+export type PopoverProps = PropsWithChildren<{
     afterHide?: () => void
     afterShow?: () => void
     allowClick?: string | Array<string>
@@ -29,7 +29,7 @@ export type DialogProps = PropsWithChildren<{
     theme?: Partial<typeof defaultTheme>
 }>
 
-export const Dialog = React.forwardRef<DialogRef, DialogProps>(({
+export const Popover = React.forwardRef<DialogRef, PopoverProps>(({
     afterHide,
     afterShow,
     allowClick = EMPTY_ARRAY,

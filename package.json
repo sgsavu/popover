@@ -1,7 +1,15 @@
 {
   "name": "@sgsavu/popover",
   "version": "0.1.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/sgsavu",
+  "repository": {
+    "url": "https://github.com/sgsavu/popover"
+  },
   "scripts": {
+    "build": "tsup",
     "lint": "tsc",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -21,6 +29,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "storybook": "^8.2.9",
+    "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {

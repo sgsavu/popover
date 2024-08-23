@@ -1,6 +1,7 @@
 /src
 /node_modules
 /.github
+/.storybook
 
 .DS_STORE
 

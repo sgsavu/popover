@@ -1,19 +1,19 @@
-import type { Meta, StoryObj, } from '@storybook/react';
-import { Dialog } from './index';
-import React, { useRef } from 'react';
-import { DIALOG_DIRECTIONS, DIALOG_MODE } from './const';
-import { fn } from '@storybook/test';
+import React, { useRef } from 'react'
+import type { Meta, StoryObj, } from '@storybook/react'
+import { fn } from '@storybook/test'
+import { DIALOG_DIRECTIONS, DIALOG_MODE } from './const'
+import { Popover, PopoverProps } from './index'
 
 const meta = {
-  title: 'Dialog',
-  component: Dialog,
+  title: 'Popover',
+  component: Popover,
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof Dialog>;
+} satisfies Meta<typeof Popover>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<PopoverProps>
 
 export const Primary: Story = {
   args: {
@@ -32,14 +32,14 @@ export const Primary: Story = {
     const divRef = useRef(null)
     return (
       <>
-        <Dialog
+        <Popover
           {...args}
           anchorRef={divRef}
         >
           123
-        </Dialog>
+        </Popover>
         <div ref={divRef}>click me </div>
       </>
     )
   },
-};
+}
