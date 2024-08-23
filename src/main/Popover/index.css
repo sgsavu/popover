@@ -1,0 +1,29 @@
+:global {
+    .sgsavu-popover {
+        position: absolute;
+        display: flex;
+        max-height: calc(100vh - 20px);
+        max-width: calc(100vw - 20px);
+        border: 1px solid --base-300;
+        padding: 8px 10px;
+        font-size: 12px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+        background-color: --basic;
+        color: --foreground;
+
+        word-break: break-word;
+        white-space: pre-wrap;
+        z-index: 100;
+    }
+
+    .sgsavu-popover__content {
+        display: flex;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .sgsavu-popover__signpost {
+        background-color: --base-500;
+        border: 1px solid --base-300;
+    }
+}
